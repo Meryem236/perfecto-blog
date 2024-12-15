@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <link rel="stylesheet" href="screenStyle.css">
+    <link rel="stylesheet" type="text/css" href="./public/css/printStyle.css" media="print">
+    <script type="module" src="./js/opinionsHandlerMustache.js"></script>
+    <script type="module" src="./js/mustache.js"></script>
+    <script type="module" src="./js/opinionsHandler.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion</title>
+    <div id="SignInButton"></div>
+    
+
+    
+</head>
+<body onload="startGSingIn()" >
+    <!-- LOGO -->
+     <header>
+    <div class="container">
+        <div class="kontakt">
+            <div class="kruh">
+                <svg width="80" height="75">
+                    <path d="M 40 5 
+                            L 47.5 25 
+                            L 70 27.5 
+                            L 52.5 40 
+                            L 57.5 62.5 
+                            L 40 50 
+                            L 22.5 62.5 
+                            L 27.5 40 
+                            L 10 27.5 
+                            L 32.5 25 
+                            Z" 
+                            fill="#8D0101" 
+                            stroke="white" 
+                            stroke-width="0.5" />
+                        <!-- mala hviezda hore -->
+                            <path d="M 35 -3 
+                            L 40.75 0
+                            L 42.5 0
+                            L 41.25 1.5 
+                            L 42 3.5 
+                            L 40 2.5 
+                            L 38.5 3.5 
+                            L 39.25 1.5 
+                            L 38.5 0
+                            L 40 0
+                            Z" 
+                            fill="white"
+                            stroke-width="0.75"/>
+                            
+                    <!-- mala hviezda napravo -->
+                    <path d="M 75 25 
+                            L 75.75 27 
+                            L 77.5 27 
+                            L 76.25 28.5 
+                            L 77 30.5 
+                            L 75 29.5 
+                            L 73.5 30.5 
+                            L 74.25 28.5 
+                            L 73.5 27 
+                            L 75 27 
+                            Z" 
+                            fill="white"
+                            stroke-width="0.75"/>
+                    <!-- mala hviezda naľavo -->
+                    <path d="M 5 25 
+                            L 5.75 27 
+                            L 7.5 27 
+                            L 6.25 28.5 
+                            L 7 30.5 
+                            L 5 29.5 
+                            L 2.5 30.5 
+                            L 3.25 28.5 
+                            L 2.5 27 
+                            L 5 27 
+                            Z" 
+                            fill="white"  
+                            stroke-width="0.75"/>
+                
+                    <!-- lodička -->
+                    <path d="M 17.5 21 
+                            Q 32 37.5, 48 60 
+                            Q -5 -15, 35 50 
+                            L 12.5 35 
+                            M 42.5 60 
+                            L 67.5 60 
+                            Q 55 45, 34 49 
+                            Z" 
+                            fill="black"/>
+                                        
+                    <!-- opätok -->
+                    <path d="M 12.5 35 
+                            L 21.5 40  
+                            L 20 62.5 Z" 
+                            fill="black"/>
+                </svg>
+        
+            </div>
+            
+            <h2>Mariana Tomiová</h2>
+            <div id="signInButton"></div>
+<div id="userInfo" style="display: none;">
+  <img id="userImage" src="" alt="User Image" />
+  <p id="userName"></p>
+  <button id="signOutButton" >Sign Out</button>
+</div>
+
+            <h4 class="email"><a href="https://outlook.office365.com/mail/">E-mail: mariana.tomiova@student.tuke.sk</a></h4>
+            <div class="menu-pas">
+                <div class="menu">
+                    <a href="#welcome" class="button-link"><span>Home</span></a>
+                    <a href="#articles" class="button-link"><span>Articles</span></a>
+                    <a href="#opinions" class="button-link"><span>Opinions</span></a>
+                    <a href="#addOpinion" class="button-link"><span>Add your opinion</span></a>
+                </div>
+            </div>
+        </div>  
+    </div>
+
+</header>
+<script>
+    let token; // Store Google token for API use
+  
+    function handleCredentialResponse(response) {
+      // Parse the token
+      const user = jwt_decode(response.credential);
+      console.log("User info:", user);
+  
+      // Update UI with user info
+      document.getElementById("userName").innerText = `Hello, ${user.name}`;
+      document.getElementById("userImage").src = user.picture;
+  
+      // Hide sign-in button, show user info
+      document.getElementById("signInButton").style.display = "none";
+      document.getElementById("userInfo").style.display = "block";
+      token = response.credential; // Store token for API requests
+    }
+  
+    function signOut() {
+      // Sign out logic
+      token = null;
+      document.getElementById("signInButton").style.display = "block";
+      document.getElementById("userInfo").style.display = "none";
+    }
+  
+    // Render Google Sign-In button
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id: "26825662100-onvg19ukno8vvcrekp45rtibe8qdkhv2.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+      });
+  
+      google.accounts.id.renderButton(
+        document.getElementById("signInButton"),
+        { theme: "outline", size: "large" }
+      );
+  
+
+    };
+  
+    // Attach sign-out event
+    document.getElementById("signOutButton").addEventListener("click", signOut);
+  </script>
+  
+<main id="router-view">
+
+</main>
+
+<script id="template-welcome" type="text/template">
+    
+    <div class="logooo">
+        <h1>BLOG ABOUT FASHION TRENDS</h1>
+        <img src="fig/2flogo.png" alt="logo">
+        
+            <p class="uvod">Welcome to my blog, where I explore the art of fashion, 
+            uncover the latest trends, and share expert tips to help you 
+            achieve a flawless look. 
+            Let me be your guide to navigating 
+            the stylish world of beauty and fashion!
+            </p>
+
+            <hr>
+            <img src="./fig/zeny.png" alt="girls">
+            <hr>
+    </div>
+    <p>
+    </p>
+</script>
+
+
+     <!--ZOZNAM ČLÁNKOV -->
+     <script id="template-articles" type="text/template">
+        <div class="zoznam">
+            <div class="articles"><h1>ARTICLES :</h1></div>
+            {{#articles}}
+            <section class="clanok1" id="article-{{id}}"> <!-- Unique ID for each article -->
+                <h2><a href="{{detailLink}}">{{title}}</a></h2>  
+                <a href="{{detailLink}}"><img src="{{imageLink}}" alt="{{title}}"></a>
+                <div class="zoznamtext">{{content}}</div>
+                <a href="{{detailLink}}" class="button-link1">Article</a>
+            </section>
+            {{/articles}}
+            <footer class="menuLink">
+                {{#showPrevious}}
+                <a href="#articles/{{previousOffset}}/{{totalCount}}" class="button-link2">Previous</a>
+                {{/showPrevious}}
+                {{#showNext}}
+                <a href="#articles/{{nextOffset}}/{{totalCount}}" class="button-link2">Next</a>
+                {{/showNext}}
+                <a href="#welcome">Back to the menu</a>
+            </footer>
+        </div>
+    </script>
+    
+    <div id="targetElm"></div>
+ <!-- Template for comments -->
+ <script id="template-comments" type="text/template">
+    <div class="comments">
+        <h3>Comments</h3>
+        {{#comments}}
+        <div class="comment">
+            <p>{{content}}</p>
+            <span>by {{author}}</span>
+        </div>
+        {{/comments}}
+        <footer class="comments-footer">
+            {{#showPrevious}}
+            <button id="prev-comments">Previous</button>
+            {{/showPrevious}}
+            {{#showNext}}
+            <button id="next-comments">Next</button>
+            {{/showNext}}
+        </footer>
+    </div>
+    <button id="addCommentButton">Add Comment</button>
+    <form id="commentForm" onsubmit="handleAddCommentFormSubmit(event, artIdFromHash)">
+        <input type="text" name="author" placeholder="Your name">
+        <textarea name="content" placeholder="Your comment"></textarea>
+        <button type="submit">Add Comment</button>
+    </form>
+</script>
+  
+        <hr>
+
+
+        <script id="template-addOpinion" type="text/template">
+        <div class="formular1">
+            <section>
+                <h3>Contact us</h3>
+                <form id="opnFrm" action="/submit-opinion" method="get">
+                    <div class="input-group1">
+                        <div class="input-item1">
+                            <label for="opnElm"><span class="hviezdicka">*</span>Name: </label>
+                            <input type="text" id="opnElm" name="opnElm" required>
+                        </div>
+                        <div class="input-item1">
+                            <label id="nopOpn"><span class="hviezdicka">*</span>Email: </label>
+                            <input type="email"  name="nopOpn" required>
+                        </div>
+                    </div>
+        
+                    <label for="picture">Picture (URL):</label>
+                    <input type="url" id="picture" name="picture" >
+        
+                    <label class="title-form">What do you prefer?</label>
+                    <div class="radio-group1">
+                        <div class="radio-item1">
+                            <input type="radio" id="bold" name="radio" value="Bold colors">
+                            <label for="bold">Bold colors</label>
+                        </div>
+                        <div class="radio-item1">
+                            <input type="radio" id="neutral" name="radio" value="Neutral colors">
+                            <label for="neutral">Neutral colors</label>
+                        </div>
+                        <div class="radio-item1">
+                            <input type="radio" id="mix" name="radio" value="Mix of both">
+                            <label for="mix">A mix of both</label>
+                        </div>
+                    </div>
+        
+                    <label class="keyword-list">Enter keywords that you think best describe our site:</label>
+                    <input type="text" id="keywordlist" name="keyword-list" list="keyword-list" placeholder="e.g.: fashion, trends, style">
+                    <datalist id="keyword-list">
+                        <option value="fashion">
+                        <option value="trends">
+                        <option value="style">
+                        <option value="outfits">
+                        <option value="clothing">
+                        <option value="accessories">
+                        <option value="sustainable fashion">
+                        <option value="beauty tips">
+                        <option value="runway">
+                        <option value="casual wear">
+                        <option value="formal wear">
+                    </datalist>
+        
+                    <label class="title-area"><span class="hviezdicka">*</span>Do you have any suggestions to improve your experience on our site?</label>
+                    <textarea required name="feedback" rows="10" cols="40" placeholder="Write your opinion here..."></textarea><br><br>
+        
+                    
+                    <div>
+
+                        <label for="willReturnElm">Would you visit again?</label>
+                        <input type="checkbox" id="willReturnElm" name="willReturnElm">
+                        <hr>
+                    </div>
+        
+                    <div class="button-container">
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                    </div>
+                    
+
+                </form>
+            </section>
+        </script>
+        </div>
+        <p>
+           
+
+
+
+            
+            <script id="template-article" type="text/template">
+                <article>
+                    <h3>{{title}}</h3>
+                    <p>by {{author}}</p>
+                    {{#imageLink}}
+                    <figure>
+                        <img src="{{imageLink}}" alt="article figure" />
+                    </figure>
+                    {{/imageLink}}
+                    <div>{{{content}}}</div>
+                    <p>Keywords: {{tags}}</p>
+                </article>
+                <footer>
+                    <a id="backButton" href="{{backLink}}" class="linkAsButton"><< Back</a>
+                    <a href="{{editLink}}" class="linkAsButton">Edit</a>
+                    <a href="{{deleteLink}}" class="linkAsButton deleteButton">Delete</a>
+                    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+                </footer>
+                <section id="comments-section">
+                    <h4>Comments:</h4>
+                    <div id="comments-container"></div>
+                    <footer class="comments-footer">
+                        <button id="prevBtn" class="button-link hiddenElm">Previous</button>
+                        <button id="nextBtn" class="button-link hiddenElm">Next</button>
+                    </footer>
+                    
+                    <button id="add-comment-btn" class="button-link">Add Comment</button>
+                    <form id="add-comment-form" class="hiddenElm">
+                        <label for="comment-author">Name:</label>
+                        <input type="text" id="comment-author" required />
+                        <br>
+                        <label for="comment-content">Comment:</label>
+                        <textarea id="comment-content" required></textarea>
+                        <br>
+                        <button type="submit">Add Comment</button>
+                    </form>
+                </section>
+            </script>
+            
+                               
+                  
+            
+            <button id="btAddArticle">Add Article</button>
+            <div id="formContainer" class="hiddenElm"></div>
+            <script id="template-article-form" type="text/template">
+                <article>
+                    <h2>{{formTitle}}</h2> <br><br>
+            
+                    <form id="articleForm">
+                        <label for="author">Author:</label>
+                        <input type="text" name="author" id="author" value="{{author}}" size="50" 
+                               title="Article author, max. length 100 characters." 
+                               maxlength="100" placeholder="e.g. Ján Trieska" />
+                        <br>
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" id="title" value="{{title}}" size="50"  
+                               maxlength="100" pattern="\S[\S\s]*" placeholder="e.g. My story." required 
+                               title="Article title, mandatory item, max. length: 100 characters. 
+                                The first character must not be a space."  />
+                        <br>
+                        <label for="imageLink">Image (url):</label>
+                        <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50" 
+                               title="Image URL, max. length 100 characters." maxlength="100"/>
+                        <br>
+                        <label></label>
+                        <button type="button" id="btShowFileUpload">
+                            Upload image
+                        </button>
+            
+                        <fieldset class="added hiddenElm" id="fsetFileUpload">
+                            <legend>Image Upload</legend>
+                            <input type="file" id="flElm" name="file" accept="image/jpeg, image/png"/>     
+                            <br />
+                            <button type="button" id="btFileUpload">
+                                Send image to server </button>
+                            <button type="button" id="btCancelFileUpload">
+                                Cancel uploading </button>
+                        </fieldset>
+            
+            
+                        <br>
+                        <label for="content">Article content:</label>
+                        <textarea
+                                name="content" id="content" spellcheck="true" lang="sk"
+                                cols="50" rows="20" required
+                                title="Article content, mandatory item, can be plain text or in HTML.">
+                          {{content}}
+                        </textarea>
+                        <br>
+                        <label for="tags">Keywords:</label>
+                        <input  type="text" name="tags" id="tags" value="fashion" size="50"
+                                title="Keyword list, comma separated." placeholder="e.g. village, drama" />
+                        <br> <br>
+                        <button type="reset"> Reset Form </button>
+                        <button type="submit"> {{submitBtTitle}} </button>
+            
+                    </form>
+                </article>
+            
+
+                <footer>
+                    <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+                    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+                </footer>
+            </script>  
+
+            <script id="template-articles-error" type="text/template"> 
+        <div class="error"> 
+            <h2>An error occurred</h2> 
+            <p>{{errMessage}}</p> 
+        </div> 
+    </script>
+
+    
+        <script id="template-opinions" type="text/template">
+            <div id="opinionsContainer" class="opinions-section">
+                {{#.}}
+                <section class="mTmplOneOpinion">
+                    
+                    <div class="opinion-left">
+                        {{#picture}}
+                            <img src="{{picture}}" alt="user picture" class="opinion-picture">
+                        {{/picture}}
+                    </div>
+                    <!-- reviews -->
+                    <div class="opinion-right">
+                        <div class="opinion-header">
+                            <h4>{{name}}</h4>
+                            <h5>{{email}}</h5>
+                            <h6><i>{{createdDate}}</i></h6>
+                        </div>
+                    <div class="opinion-body">
+                        <p>{{comment}}</p>
+                        <p>{{willReturn}}</p>
+                    </div>
+                            
+                        </div>
+                    </section>
+                        {{/.}}
+                        {{^.}}
+                        
+                    <div class="sechr">
+                        <hr>
+                    </div>
+                    <section>
+                        Sorry, no opinions found.
+                    </section>
+                    {{/.}}
+            </div>
+        </script>
+  
+        <script type="module" src="./js/articleFormsHandler.js"></script> 
+        <script  type="module" src="./js/index.js"></script>
+    
+</body>
+</html>
